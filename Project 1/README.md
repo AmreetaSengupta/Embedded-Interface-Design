@@ -15,7 +15,6 @@
    - sudo apt install mariadb-server
    - sudo mysql_secure_installation
    - Create a new a user and grant all privilidges to the database for that user using the instructions given in the link mentioned above.
-  - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - Use the following command to Log into MariaDB 
     - sudo mysql -u root -p
   - Create the database that the project will use using the following command: 
@@ -27,9 +26,10 @@
   - Flush the privileges table, allowing the changes made in the previous step to take effect suing the following command: 
      - FLUSH PRIVILEGES;
   - Use Ctrl+C to exit MariaDB
+  - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it.
-- We also need QT which is a software library for GUI development and we need PyQT, for developing QT software in linux using Python.
-  install these libraries using the following commands 
+- QT which is a software library is also needed for GUI development and we need PyQT, for developing QT software in linux using Python.
+  Install these libraries using the following commands 
   - sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
   - sudo apt-get install qttools5-dev-tools
   
