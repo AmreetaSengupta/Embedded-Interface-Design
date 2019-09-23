@@ -1,13 +1,16 @@
 ## EMBEDDED INTERFACE DESIGN PROJECT 1 : TEMPERATURE AND HUMIDITY CONTROLLER
+                                                
+                                                
 
-#### [INSTALLATION INSTRUCTIONS](####installation-instructions)
-___
+#### INSTALLATION INSTRUCTIONS
 - Clone the Repository to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
-- Install the following in the Raspberry Pi:
-#### [PROJECT WORK](####project-work)
+- Run the following commands to import the ADAFRUIT Libraries in the Raspberry Pi:
+sudo apt-get install python3-dev python3-pip
+
+#### PROJECT WORK
 ___
 
-#### [PROJECT ADDITIONS](####project-additions)
+#### PROJECT ADDITIONS
 ___
 
 
