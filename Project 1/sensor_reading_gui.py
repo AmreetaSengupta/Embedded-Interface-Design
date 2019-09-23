@@ -1,7 +1,6 @@
 #*****************************************************************************************************************
 # File Name: sensor_reading_gui.py
 # Description: This code is used to store the sensor readings in a database and display these readings in a GUI.
-# Author: Amreeta Sengupta and Ridhi Shah
 # Date: 09/23/2019
 # References: https://www.w3schools.com/python/python_mysql_drop_table.asp
 #	      https://pimylifeup.com/raspberry-pi-humidity-sensor-dht22/ 
@@ -16,6 +15,9 @@ import threading
 import multitimer
 from matplotlib import pyplot as plt
 from PyQt5 import QtCore, QtGui, QtWidgets
+
+__author__ = "Amreeta Sengupta, Ridhi Shah"
+__copyright__ = "Copyright (C) 2019 by Amreeta Sengupta and Ridhi Shah"
 
 #UPDATE THE USERNAME AND PASSWORD BEFORE RUNNING THE CODE
 host_name = "localhost"
