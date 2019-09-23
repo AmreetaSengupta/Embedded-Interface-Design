@@ -31,7 +31,6 @@ timer_count = 0
 def timer_15():
         global timer_count
         timer_count = timer_count + 1
-        print(timer_count)
 	#TO INSERT THE CONTENTS OF THE SENSOR INTO THE DATABASE TABLE
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
         if humidity is not None and temperature is not None:
