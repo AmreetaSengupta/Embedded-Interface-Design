@@ -22,6 +22,7 @@
   - python3 sensor_reading_gui.py 
 - A GUI will open which will allow the user to view and control the Temperature and Humidity Settings
 
+
 ## PROJECT WORK
 - Amreeta Sengupta: Responsible for sensor interfacing and storing the values in the database.
 - Ridhi Shah: Responsible for design of GUI and linking it with the database.
