@@ -1,11 +1,12 @@
 #*****************************************************************************************************************
-# File Name: eid_proj.py
+# File Name: sensor_reading_gui.py
 # Description: This code is used to store the sensor readings in a database and display these readings in a GUI.
 # Author: Amreeta Sengupta and Ridhi Shah
 # Date: 09/23/2019
 # References: https://www.w3schools.com/python/python_mysql_drop_table.asp
 #	      https://pimylifeup.com/raspberry-pi-humidity-sensor-dht22/ 
 #	      https://pypi.org/project/multitimer/
+#             https://matplotlib.org/
 #******************************************************************************************************************
 
 import mysql.connector
@@ -29,14 +30,16 @@ timer_count = 0
 def timer_15():
         global timer_count
         timer_count = timer_count + 1
+        print(timer_count)
 	#TO INSERT THE CONTENTS OF THE SENSOR INTO THE DATABASE TABLE
         humidity, temperature = Adafruit_DHT.read_retry(DHT_SENSOR, DHT_PIN)
         if humidity is not None and temperature is not None:
                 mycursor.execute("INSERT INTO {} (Humidity, Temperature, Timestamp) VALUES ({:0.2f},{:0.2f},'{}')".format(table_name, humidity, temperature, datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")))
                 mydb.commit()
                 ui.display_15_Fxn(humidity, temperature, datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-                if timer_count == 31:
-                        sys.exit()
+                if timer_count == 5:
+                        print(timer_count)
+                        ui.exit_code_Fxn()
         else:
                 ui.display_15_Fxn("None1", "None1", datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
                 
@@ -81,12 +84,11 @@ for i in mycursor:
   
 """
 #CONFIGURING THE TIMER 
-timer = multitimer.MultiTimer(interval=15, function=timer_15, args=None, kwargs=None, count=30, runonstart=True)
+timer = multitimer.MultiTimer(interval=3, function=timer_15, args=None, kwargs=None, count=5, runonstart=True)
 timer.start()
 
 # Form implementation generated from reading ui file 'sensor_reading_gui.ui'
 # Created by: PyQt5 UI code generator 5.11.3
-
 
 class Ui_gui(object):
         def setupUi(self, gui):
@@ -336,14 +338,18 @@ class Ui_gui(object):
                         conversion_type = 1
                 else:
                         conversion_type = 0
-
+        
+        def exit_code_Fxn(self):
+                #TO EXIT THE CODE AFTER 30 READS
+                self.sysexits()
 
 if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    gui = QtWidgets.QMainWindow()
-    ui = Ui_gui()
-    ui.setupUi(gui)
-    gui.show()
-    sys.exit(app.exec_())
+        import sys
+        app = QtWidgets.QApplication(sys.argv)
+        gui = QtWidgets.QMainWindow()
+        ui = Ui_gui()
+        ui.setupUi(gui)
+        gui.show()
+        sys.exit(app.exec_())
+
 
