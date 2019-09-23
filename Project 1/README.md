@@ -30,5 +30,3 @@
 - A button press changes the entire application from displaying any temperature data (in graphs or on the GUI) in degrees C to degrees F and back again. (Extra Credit)
 
 
-
-
