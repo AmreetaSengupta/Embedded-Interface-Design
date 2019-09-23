@@ -1,7 +1,7 @@
 ## EMBEDDED INTERFACE DESIGN PROJECT 1 : TEMPERATURE AND HUMIDITY CONTROLLER
 
 #### [INSTALLATION INSTRUCTIONS](####installation-instructions)
-___
+__
 
 #### [PROJECT WORK](####project-work)
 ___
