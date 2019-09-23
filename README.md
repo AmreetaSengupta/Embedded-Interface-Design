@@ -2,7 +2,8 @@
 
 #### [INSTALLATION INSTRUCTIONS](####installation-instructions)
 ___
-- Clone the [Repository] to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
+- Clone the Repository to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
+- Install the following in the Raspberry Pi:
 #### [PROJECT WORK](####project-work)
 ___
 
