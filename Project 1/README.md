@@ -15,7 +15,7 @@
   - sudo apt install mariadb-server
   - sudo mysql_secure_installation
   - Create a new a user and grant all privilidges to the database for that user using the instructions given in the link mentioned above.
-  - Run python3 -m pip install mysql-connector to install MySQL Connector
+  - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it.
  - Use the following command to install Matplotlib library for python to plot graphs:
    - python -m pip install -U pip
