@@ -18,8 +18,10 @@
   - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it.
  - Use the following command to install Matplotlib library for python to plot graphs:
-   - python -m pip install -U pip
-   - python -m pip install -U matplotlib
+   - python3 -m pip install -U pip
+   - python3 -m pip install -U matplotlib
+ - Use the following command to install multitimer module:
+   - sudo pip3 install multitimer
 - Clone the Repository to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
 - Go to the folder Project 1 and run the script by typing the following:
   - python3 sensor_reading_gui.py 
