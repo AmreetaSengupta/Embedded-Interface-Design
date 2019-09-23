@@ -21,6 +21,7 @@
 - Go to the folder Project 1 and run the script by typing the following:
   - python3 sensor_reading_gui.py 
 - A GUI will open which will allow the user to view and control the Temperature and Humidity Settings
+
 ![Alt text](https://github.com/AmreetaSengupta/Embedded-Interface-Design/blob/master/Project%201/Screenshot/gui.JPG)
 
 ## PROJECT WORK
