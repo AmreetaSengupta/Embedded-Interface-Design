@@ -29,7 +29,7 @@
   - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it.
 - QT which is a software library is also needed for GUI development and PyQT is needed, for developing QT software in linux using Python.
-  Install these libraries using the following commands 
+  Install these libraries using the following commands:
   - sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
   - sudo apt-get install qttools5-dev-tools
   
