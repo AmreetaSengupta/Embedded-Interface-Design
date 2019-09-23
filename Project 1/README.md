@@ -14,7 +14,10 @@
 - Use the following commands to set up MYSQL in Raspberry Pi from https://pimylifeup.com/raspberry-pi-mysql/ which includes:
   - sudo apt install mariadb-server
   - sudo mysql_secure_installation
- - Use the following command to install Matplotlib to plot graphs:
+  - Create a new a user and grant all privilidges to the database for that user using the instructions given in the link mentioned above.
+  - Run "python3 -m pip install mysql-connector" to install MySQL Connector
+  - The user needs to update the Login Details (i.e. username and password) in the code before running it.
+ - Use the following command to install Matplotlib library for python to plot graphs:
    - python -m pip install -U pip
    - python -m pip install -U matplotlib
 - Clone the Repository to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
