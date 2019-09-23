@@ -17,6 +17,7 @@ import multitimer
 from matplotlib import pyplot as plt
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+#UPDATE THE USERNAME AND PASSWORD BEFORE RUNNING THE CODE
 host_name = "localhost"
 user_name = "ridhi_amreeta"
 passwd_name = "eid19"
@@ -37,8 +38,7 @@ def timer_15():
                 mycursor.execute("INSERT INTO {} (Humidity, Temperature, Timestamp) VALUES ({:0.2f},{:0.2f},'{}')".format(table_name, humidity, temperature, datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")))
                 mydb.commit()
                 ui.display_15_Fxn(humidity, temperature, datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-                if timer_count == 5:
-                        print(timer_count)
+                if timer_count == 30:
                         ui.exit_code_Fxn()
         else:
                 ui.display_15_Fxn("None1", "None1", datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
@@ -84,7 +84,7 @@ for i in mycursor:
   
 """
 #CONFIGURING THE TIMER 
-timer = multitimer.MultiTimer(interval=3, function=timer_15, args=None, kwargs=None, count=5, runonstart=True)
+timer = multitimer.MultiTimer(interval=15, function=timer_15, args=None, kwargs=None, count=30, runonstart=True)
 timer.start()
 
 # Form implementation generated from reading ui file 'sensor_reading_gui.ui'
@@ -341,7 +341,7 @@ class Ui_gui(object):
         
         def exit_code_Fxn(self):
                 #TO EXIT THE CODE AFTER 30 READS
-                self.sysexits()
+                app.quit()
 
 if __name__ == "__main__":
         import sys
