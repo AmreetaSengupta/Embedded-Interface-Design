@@ -17,6 +17,12 @@
   - Create a new a user and grant all privilidges to the database for that user using the instructions given in the link mentioned above.
   - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it.
+  - use the following command to Log into MariaDB 
+    - sudo mysql -u root -p
+  - Then create a username and password which the program will use with the help of the following command:
+    - CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'PASSWORD'
+  - Grant all the privileges that the user will need with this command: 
+    - GRANT ALL PRIVILEGES ON DB_NAME.* TO 'USERNAME'@'localhost';
  - Use the following command to install Matplotlib library for python to plot graphs:
    - python3 -m pip install -U pip
    - python3 -m pip install -U matplotlib
