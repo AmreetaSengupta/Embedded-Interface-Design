@@ -19,8 +19,10 @@
   - The user needs to update the Login Details (i.e. username and password) in the code before running it.
   - use the following command to Log into MariaDB 
     - sudo mysql -u root -p
+  - Create the database that the project will use using the following command: 
+    - CREATE DATABASE DB_NAME;
   - Then create a username and password which the program will use with the help of the following command:
-    - CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'PASSWORD'
+    - CREATE USER 'USERNAME'@'localhost' IDENTIFIED BY 'PASSWORD';
   - Grant all the privileges that the user will need with this command: 
     - GRANT ALL PRIVILEGES ON DB_NAME.* TO 'USERNAME'@'localhost';
   - Flush the privileges table, allowing the changes made in the previous step to take effect suing the following command: 
