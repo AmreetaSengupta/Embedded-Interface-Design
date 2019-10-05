@@ -1,4 +1,4 @@
-# EMBEDDED INTERFACE DESIGN PROJECT 2 : SERVER CLIENT WEBSOCKET CONNECTION AND INTERACTION
+# EMBEDDED INTERFACE DESIGN PROJECT 2 : SERVER CLIENT WEBSOCKET COMMUNICATION
                                                 
                                            Authors   : Amreeta Sengupta and Ridhi Shah
                                            Professor : Bruce Montgomery 
