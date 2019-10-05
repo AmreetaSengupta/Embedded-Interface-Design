@@ -15,6 +15,8 @@
   - nvm install 10.16.3 (Installs the stable LTS 10.16.3 node)
   - node -v (Returns the version number)
   - npm –v (Returns the version of npm installed with node.js)
+- Run the following command to setup MYSQL for node.js:
+  -
 - Run the following command to install DHT22 module in node.js:
   - npm install node-dht-sensor
 - Clone the Repository to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
