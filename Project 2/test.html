@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+  h1 {text-align:center;}
+  h2 {text-align:center;}
+  p {text-align:center;}
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  body{
+  background-color: #4390BC 
+  }
+  
+  .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    outline-style: solid;
+    outline-color: black;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    
+  table, td {
+    border: 1px solid black;
+  }
+</style>
+</head>
+
+<body>
+  <u><b><h1>TEMPERATURE AND HUMIDITY CONTROLLER</h1></u></b>
+  <p id="demo"></p>
+  <div class="row">
+  <div class="column" style="background-color:#8DBDD8;">
+  <u><h2>NODE.JS</h2></u>
+  <div style="text-align: center;">
+  Data: <input type="text" id="refresh_node">
+  <br>
+  <br><input type="button" onclick="refresh_node()" value="REFRESH">
+  <br>
+  &nbsp; 
+  <table id="table" border="1" align="center">
+  </table>
+  </div>
+ 
+  </div>
+  
+  <div class="row">
+  <div class="column" style="background-color:#8DBDD8;">
+  <u><h2>TORNADO</h2></u>
+  <div style="text-align: center;">
+  Data: <input type="text" id="refresh_tor">
+  <br>
+  <br><input type="button" onclick="refresh_tor()" value="REFRESH">
+  <br>
+  &nbsp;
+  <table id="table1" border="1" align="center">
+  </table>
+  </div>
+  </div>
+  
+  <div style="text-align: center;">
+  &nbsp;
+  <br><input type="button" onclick="clickAlert()" value="C-F/F-C">
+  <br>
+  <br><input type="button" onclick="table_node()" value="LAST 10 READINGS">
+  <br>
+  <br><input type="button" onclick="clickAlert()" value="TEMPERATURE GRAPH">
+  <input type="button" onclick="clickAlert()" value="HUMIDITY GRAPH">
+  </div>
+</body>
+
+<script>
+  var recieved_data;
+  const ws = new WebSocket('ws://localhost:9898/');
+  ws.onopen = function() {
+      console.log('WebSocket Client Connected');
+      ws.send('Hi this is web client.');
+  };
+  
+  ws.onmessage = function(e) {
+    recieved_data = e.data
+  };
+  
+  function refresh_node() {
+    document.getElementById("refresh_node").value += recieved_data;
+  }
+  function refresh_tor() {
+    document.getElementById("refresh_tor").value="yayy";
+  }
+  function table_node() {
+    var array = [["Humidity","Temperature","Timestamp"],["A1","B1","C1"],
+                         ["A2","B2","C2"],
+                         ["A3","B3","C3"],
+                         ["A4","B4","C4"],
+                         ["A5","B5","C5"],
+                         ["A1","B1","C1"],
+                         ["A2","B2","C2"],
+                         ["A3","B3","C3"],
+                         ["A4","B4","C4"],
+                         ["A5","B5","C5"]],
+  table = document.getElementById("table");
+  for(var i = 0; i < array.length; i++)
+  {
+    // create a new row
+    var newRow = table.insertRow(table.length);
+    for(var j = 0; j < array[i].length; j++)
+    {
+      // create a new cell
+      var cell = newRow.insertCell(j);
+                   
+      // add value to the cell
+      cell.innerHTML = array[i][j];
+    }
+  }
+  var array = [["Humidity","Temperature","Timestamp"],["A1","B1","C1"],
+                         ["A2","B2","C2"],
+                         ["A3","B3","C3"],
+                         ["A4","B4","C4"],
+                         ["A5","B5","C5"],
+                         ["A1","B1","C1"],
+                         ["A2","B2","C2"],
+                         ["A3","B3","C3"],
+                         ["A4","B4","C4"],
+                         ["A5","B5","C5"]],
+  table = document.getElementById("table1");
+  for(var i = 0; i < array.length; i++)
+  {
+    // create a new row
+    var newRow = table.insertRow(table.length);
+    for(var j = 0; j < array[i].length; j++)
+    {
+      // create a new cell
+      var cell = newRow.insertCell(j);
+                   
+      // add value to the cell
+      cell.innerHTML = array[i][j];
+    }
+  }
+   
+  }
+  
+
+  
+  
+  
+</script>
+</html>
