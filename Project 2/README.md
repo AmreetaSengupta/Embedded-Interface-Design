@@ -51,13 +51,14 @@
 - Clone the Repository to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
 - Go to the folder Project 2 and run the script  by typing the following:
   - ./eid_script.sh
+  - Run the client by clicking on test.html
 
 ## PROJECT WORK
 - Amreeta Sengupta: Responsible for Establishing the connection between Node.js server and the HTML Client and intergration of both.
 - Ridhi Shah: Responsible for Establishing the connection between Tornado server and the HTML Client and intergration of both.
 
 ## PROJECT ADDITIONS
-- A Graph for last 10 values of temperature and Humidity is displayed on Button press fro both
+- A Graph for last 10 values of temperature and Humidity is displayed on Button press for both
 - Following Error Conditions were taken care of :
   - Error message is displayed when the DHT22 sensor is disconnected.
   - Error message is displayed on the HTML webpage when the Node.js server is disconnected.
