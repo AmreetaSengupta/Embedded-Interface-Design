@@ -53,11 +53,16 @@
    -./eid_script.sh
 
 ## PROJECT WORK
-- Amreeta Sengupta: Responsible for sensor interfacing and storing the values in the database.
-- Ridhi Shah: Responsible for design of GUI and linking it with the database.
+- Amreeta Sengupta: Responsible for Establishing the connection between Node.js server and the HTML Client and intergration of both
+- Ridhi Shah: Responsible for Establishing the connection between Tornado server and the HTML Client and intergration of both
 
 ## PROJECT ADDITIONS
-- A button press changes the entire application from displaying any temperature data (in graphs or on the GUI) in degrees C to degrees F and back again. (Extra Credit)
+- A Graph for last 10 values of temperature and Humidity is displayed on Button press fro both
+- Following Error Conditions were taken care of :
+  - Error message is displayed when the DHT22 sensor is disconnected
+  - Error message is displayed on the HTML webpage when the Node.js server is disconnected
+  - Error message is disaplyed on the HTML webpage when the Tornado server is disconnected
+
 
 ## REFERNECES
 - EID Lecture Files (Intro to NodeJS)
