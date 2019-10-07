@@ -50,19 +50,26 @@
   - pip3 install tornado
 - Clone the Repository to the Raspberry Pi (https://github.com/AmreetaSengupta/Embedded-Interface-Design.git)
 - Go to the folder Project 2 and run the script  by typing the following:
-   -./eid_script.sh
+  - ./eid_script.sh
 
 ## PROJECT WORK
-- Amreeta Sengupta: Responsible for Establishing the connection between Node.js server and the HTML Client and intergration of both
-- Ridhi Shah: Responsible for Establishing the connection between Tornado server and the HTML Client and intergration of both
+- Amreeta Sengupta: Responsible for Establishing the connection between Node.js server and the HTML Client and intergration of both.
+- Ridhi Shah: Responsible for Establishing the connection between Tornado server and the HTML Client and intergration of both.
 
 ## PROJECT ADDITIONS
 - A Graph for last 10 values of temperature and Humidity is displayed on Button press fro both
 - Following Error Conditions were taken care of :
-  - Error message is displayed when the DHT22 sensor is disconnected
-  - Error message is displayed on the HTML webpage when the Node.js server is disconnected
-  - Error message is disaplyed on the HTML webpage when the Tornado server is disconnected
+  - Error message is displayed when the DHT22 sensor is disconnected.
+  - Error message is displayed on the HTML webpage when the Node.js server is disconnected.
+  - Error message is disaplyed on the HTML webpage when the Tornado server is disconnected.
 
 
 ## REFERNECES
 - EID Lecture Files (Intro to NodeJS)
+- https://html.com/tags/comment-tag/
+- https://canvasjs.com/html5-javascript-line-chart/
+- https://www.w3schools.com/
+- https://stackoverflow.com/
+- http://www.tornadoweb.org/en/stable/
+- https://www.pubnub.com/blog/nodejs-websocket-programmingexamples/
+- https://os.mbed.com/cookbook/Websockets-Server
