@@ -7,6 +7,9 @@
 #	      https://pimylifeup.com/raspberry-pi-humidity-sensor-dht22/ 
 #	      https://pypi.org/project/multitimer/
 #             https://matplotlib.org/
+#             http://www.tornadoweb.org/en/stable/
+#             https://www.pubnub.com/blog/nodejs-websocket-programmingexamples/
+#             https://os.mbed.com/cookbook/Websockets-Server
 #******************************************************************************************************************
 
 import mysql.connector

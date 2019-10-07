@@ -51,18 +51,18 @@ con.connect(function(err) {
 wsServer.on('request', function(request) {
     const connection = request.accept(null, request.origin);
     connection.on('message', function(message) {
-     if(message.utf8Data == "Hi this is web client."){
-     con.query('SELECT * from ' + table_name + ' ORDER BY id DESC LIMIT 10', function(err, rows, fields) {
-     if (!err)
-         var string_rows_10 = JSON.stringify(rows);
-         console.log(string_rows_10);
-         connection.sendUTF(string_rows_10);
+    if(message.utf8Data == "Hi this is web client."){
+    con.query('SELECT * from ' + table_name + ' ORDER BY id DESC LIMIT 10', function(err, rows, fields) {
+    if (!err)
+      var string_rows_10 = JSON.stringify(rows);
+      console.log(string_rows_10);
+      connection.sendUTF(string_rows_10);
       
       });
     }
   });
     connection.on('close', function(reasonCode, description) {
-      console.log('Client has disconnected.');
+    console.log('Client has disconnected.');
   });
 });
 
