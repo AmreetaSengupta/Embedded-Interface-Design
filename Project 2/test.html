@@ -1,3 +1,13 @@
+<!-- 
+******************************************************************************************************************
+* File Name: test.html
+* Description: This code is used to display the data recieved from Tornado Server and Node.js Server
+* Author: Amreeta Sengupta and Ridhi Shah
+* Date: 10/07/2019
+* References: https://html.com/tags/comment-tag/
+******************************************************************************************************************
+-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,17 +48,28 @@
 <body>
   <u><b><h1>TEMPERATURE AND HUMIDITY CONTROLLER</h1></u></b>
   <p id="demo"></p>
+  <p id="demo_t"></p>
+  <p id="demo_n"></p>
   <div class="row">
   <div class="column" style="background-color:#8DBDD8;">
   <u><h2>NODE.JS</h2></u>
   <div style="text-align: center;">
-  Data: <input type="text" id="refresh_node">
+  Temperature: <input type="text" id="temperature_node">
+  <br>
+  <br>
+  Humidity: <input type="text" id="humidity_node">
+  <br>
+  <br>
+  Timestamp: <input type="text" id="timestamp_node">
   <br>
   <br><input type="button" onclick="refresh_node()" value="REFRESH">
   <br>
   &nbsp; 
   <table id="table" border="1" align="center">
   </table>
+  <p id="demo_1"></p>
+  <p id="demo_2"></p>
+  <p id="demo_3"></p>
   </div>
  
   </div>
@@ -57,100 +78,393 @@
   <div class="column" style="background-color:#8DBDD8;">
   <u><h2>TORNADO</h2></u>
   <div style="text-align: center;">
-  Data: <input type="text" id="refresh_tor">
+ Temperature: <input type="text" id="temperature_tor">
+  <br>
+  <br>
+  Humidity: <input type="text" id="humidity_tor">
+  <br>
+  <br>
+  Timestamp: <input type="text" id="timestamp_tor">
   <br>
   <br><input type="button" onclick="refresh_tor()" value="REFRESH">
   <br>
   &nbsp;
   <table id="table1" border="1" align="center">
+
   </table>
+  <p id="demo_4"></p>
+  <p id="demo_5"></p>
+  <p id="demo_6"></p>
   </div>
   </div>
   
   <div style="text-align: center;">
   &nbsp;
-  <br><input type="button" onclick="clickAlert()" value="C-F/F-C">
+  <br><input type="button" onclick="c_f()" value="C-F/F-C">
   <br>
   <br><input type="button" onclick="table_node()" value="LAST 10 READINGS">
   <br>
-  <br><input type="button" onclick="clickAlert()" value="TEMPERATURE GRAPH">
-  <input type="button" onclick="clickAlert()" value="HUMIDITY GRAPH">
+  <br><input type="button" onclick="temp_graph()" value="TEMPERATURE GRAPH">
+  <input type="button" onclick="humidity_graph()" value="HUMIDITY GRAPH">
   </div>
+  <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
-
+<script src="http://code.jquery.com/jquery.min.js"></script>
 <script>
-  var recieved_data;
+  var recieved_data, Temperature_val, Humidity_val, Timestamp_val, tor_data, tor_10;
+  cf_flag=0;
+  table_flag=0;
+  table_flag1=0;
+  flag_refresh_tor=0;
+  flag_table_tor=0;
+  flag_temp_graph=0;
+  flag_humidity_graph=0;
+   
+  // log function
+  log = function(data){
+  $("div#terminal").prepend("</br>" +data);
+  console.log(data);
+  };
+ 
+  $(document).ready(function () {
+  $("div#message_details").hide()
+
+ 
+ // $("#open").click(function(evt) {
+ // evt.preventDefault();
+ 
+  // create websocket instance
+  ws_tor = new WebSocket('ws://localhost:8800/ws');
+  
+  // Handle incoming websocket message callback
+  ws_tor.onmessage = function(evt){
+    if(evt.data == "Error!")
+    {
+      document.getElementById("temperature_tor").value =  "ERROR!";
+      document.getElementById("humidity_tor").value = "ERROR!";
+      document.getElementById("timestamp_tor").value = "ERROR!";
+    }
+    else
+    {
+      tor_data=evt.data
+      obj_tor = JSON.parse(tor_data);
+      console.log(obj_tor);
+      
+      //Display the Humidity Graph
+      if(flag_humidity_graph == 1)
+      {
+        flag_humidity_graph = 0;
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+          animationEnabled: true,
+          theme: "light2",
+          title:{
+            text: "HUMIDITY GRAPH"
+          },
+          axisY:{
+            includeZero: false
+          },
+          data: [{        
+            type: "line",       
+            dataPoints: [
+              { y: obj_tor[0].Humidity },
+              { y: obj_tor[1].Humidity},
+              { y: obj_tor[2].Humidity, indexLabel: "highest",markerColor: "red", markerType: "triangle" },
+              { y: obj_tor[3].Humidity },
+              { y: obj_tor[4].Humidity },
+              { y: obj_tor[5].Humidity },
+              { y: obj_tor[6].Humidity },
+              { y: obj_tor[7].Humidity },
+              { y: obj_tor[8].Humidity , indexLabel: "lowest",markerColor: "DarkSlateGrey", markerType: "cross" },
+              { y: obj_tor[9].Humidity}
+            ]
+          }]
+        });
+        chart.render();
+      }
+
+      // Display the Temperature Graph
+      if (flag_temp_graph == 1)
+      {
+        
+        flag_temp_graph = 0;
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+          animationEnabled: true,
+          theme: "light2",
+          title:{
+            text: "TEMPERATURE GRAPH"
+          },
+          axisY:{
+            includeZero: false
+          },
+          data: [{        
+            type: "line",       
+            dataPoints: [
+              { y: obj_tor[0].Temperature },
+              { y: obj_tor[1].Temperature},
+              { y: obj_tor[2].Temperature, indexLabel: "highest",markerColor: "red", markerType: "triangle" },
+              { y: obj_tor[3].Temperature },
+              { y: obj_tor[4].Temperature },
+              { y: obj_tor[5].Temperature },
+              { y: obj_tor[6].Temperature },
+              { y: obj_tor[7].Temperature },
+              { y: obj_tor[8].Temperature , indexLabel: "lowest",markerColor: "DarkSlateGrey", markerType: "cross" },
+              { y: obj_tor[9].Temperature }
+            ]
+          }]
+        });
+        chart.render();
+
+      }
+      
+      // Display the current values obtained via Tornado Server
+      if(flag_refresh_tor == 1) {
+        flag_refresh_tor = 0;
+        if( cf_flag == 1)
+        {
+          
+            obj_tor.Temperature = (((9.0/5.0)*obj_tor.Temperature) + 32);
+            
+          
+        }
+        Temp_tor = obj_tor.Temperature;
+        Humidity_tor = obj_tor.Humidity;
+        Timestamp_tor = obj_tor.Timestamp;
+        if( cf_flag == 0)
+        {
+          document.getElementById("temperature_tor").value =  Temp_tor + " C";
+        }
+        else
+        {
+          document.getElementById("temperature_tor").value =  Temp_tor + " F";
+        }
+        document.getElementById("humidity_tor").value = Humidity_tor + " %";
+        document.getElementById("timestamp_tor").value = Timestamp_tor;
+      }
+      
+      if(flag_table_tor == 1) {
+    
+        flag_table_tor = 0;
+        if( cf_flag == 1)
+        {
+          for(i=0;i<10;i++)
+          {
+            obj_tor[i].Temperature = (((9.0/5.0)*obj_tor[i].Temperature) + 32);
+            
+          } 
+        }
+
+        var array = [["Humidity","Temperature","Timestamp"],[obj_tor[0].Humidity,obj_tor[0].Temperature,obj_tor[0].Timestamp],
+                             [obj_tor[1].Humidity,obj_tor[1].Temperature,obj_tor[1].Timestamp],
+                             [obj_tor[2].Humidity,obj_tor[2].Temperature,obj_tor[2].Timestamp],
+                             [obj_tor[3].Humidity,obj_tor[3].Temperature,obj_tor[3].Timestamp],
+                             [obj_tor[4].Humidity,obj_tor[4].Temperature,obj_tor[4].Timestamp],
+                             [obj_tor[5].Humidity,obj_tor[5].Temperature,obj_tor[5].Timestamp],
+                             [obj_tor[6].Humidity,obj_tor[6].Temperature,obj_tor[6].Timestamp],
+                             [obj_tor[7].Humidity,obj_tor[7].Temperature,obj_tor[7].Timestamp],
+                             [obj_tor[8].Humidity,obj_tor[8].Temperature,obj_tor[8].Timestamp],
+                             [obj_tor[9].Humidity,obj_tor[9].Temperature,obj_tor[9].Timestamp]],
+      table = document.getElementById("table1");
+      if (table_flag1 != 0)
+      {
+        var tmp = table.rows.length;
+        for( var t =tmp-1;t>0;t--)
+        {
+          table.deleteRow(t);
+        }
+        table.deleteRow(0);
+      }
+      for(var i = 0; i < array.length; i++)
+      {
+        // create a new row
+        var newRow = table.insertRow(table.length);
+        for(var j = 0; j < array[i].length; j++)
+        {
+          // create a new cell
+          var cell = newRow.insertCell(j);
+                       
+          // add value to the cell
+          cell.innerHTML = array[i][j];
+        }
+      }
+      table_flag1 = 1;
+      
+      var tor_t2 = new Date();
+      document.getElementById("demo_5").innerHTML = "End Time: " + tor_t2.getTime() + " ms";
+      document.getElementById("demo_6").innerHTML = "Execution Time: " + (tor_t2.getTime()-tor_t1.getTime()) + " ms";
+    }
+
+    }
+  };
+    
+
+    // Close Websocket callback
+    ws_tor.onclose = function(evt) {
+      log("***Connection Closed***");
+      document.getElementById("demo_t").innerHTML = "Tornado Server Connection Closed!";
+      };
+
+    // Open Websocket callback
+    ws_tor.onopen = function(evt) { 
+      $("div#message_details").show();
+      log("***Connection Opened***");
+      document.getElementById("demo_t").innerHTML = "Tornado Server Connected!";
+    };
+
+    // Send websocket message function
+    $("#send").click(function(evt) {
+    console.log("button clicked ")
+    });
+});
+        
   const ws = new WebSocket('ws://localhost:9898/');
   ws.onopen = function() {
       console.log('WebSocket Client Connected');
+      document.getElementById("demo_n").innerHTML = "Node.js Server Connected!";
       ws.send('Hi this is web client.');
   };
   
   ws.onmessage = function(e) {
-    recieved_data = e.data
+   
+    recieved_data = e.data;
+    obj = JSON.parse(recieved_data);
+    flagarr_clr=0;
+    flag_clr=0;
   };
   
+  ws.onclose = function(e) {
+      log("***Connection Closed***");
+      document.getElementById("demo_n").innerHTML = "Node.js Server Connection Closed!";
+      };
+  
+  // Function to display the current values from the Node.js Server
   function refresh_node() {
-    document.getElementById("refresh_node").value += recieved_data;
+    ws.send('Hi this is web client.');
+      if( cf_flag == 1)
+      {
+        for(i=0;i<10;i++)
+        {
+          obj[i].Temperature = (((9.0/5.0)*obj[i].Temperature) + 32);
+        } 
+      }
+      Temperature_val = obj[0].Temperature; 
+      Humidity_val = obj[0].Humidity;
+      Timestamp_val = obj[0].Timestamp;
+      if( cf_flag == 0)
+      {   
+        document.getElementById("temperature_node").value =  Temperature_val + " C";
+      }
+      else
+      {
+         document.getElementById("temperature_node").value =  Temperature_val + " F";
+      }
+      
+      document.getElementById("humidity_node").value =  Humidity_val + " %";
+      document.getElementById("timestamp_node").value =  Timestamp_val;
+      
+    
   }
-  function refresh_tor() {
-    document.getElementById("refresh_tor").value="yayy";
-  }
+  
+  // Function to display the last ten values from the database
   function table_node() {
-    var array = [["Humidity","Temperature","Timestamp"],["A1","B1","C1"],
-                         ["A2","B2","C2"],
-                         ["A3","B3","C3"],
-                         ["A4","B4","C4"],
-                         ["A5","B5","C5"],
-                         ["A1","B1","C1"],
-                         ["A2","B2","C2"],
-                         ["A3","B3","C3"],
-                         ["A4","B4","C4"],
-                         ["A5","B5","C5"]],
-  table = document.getElementById("table");
-  for(var i = 0; i < array.length; i++)
-  {
-    // create a new row
-    var newRow = table.insertRow(table.length);
-    for(var j = 0; j < array[i].length; j++)
+
+    
+    tor_t1 = new Date();
+    document.getElementById("demo_4").innerHTML = "Start Time: " + tor_t1.getTime() + " ms";
+    
+    flag_table_tor = 1
+    ws_tor.send("Send the table values");
+    
+    var node_t1 = new Date();
+    document.getElementById("demo_1").innerHTML = "Start Time: " + node_t1.getTime() + " ms";
+    ws.send('Hi this is web client.');
+    if( cf_flag == 1)
+      {
+        for(i=0;i<10;i++)
+        {
+          obj[i].Temperature = (((9.0/5.0)*obj[i].Temperature) + 32);
+          
+        } 
+      }
+    
+      var array = [["Humidity","Temperature","Timestamp"],[obj[0].Humidity,obj[0].Temperature,obj[0].Timestamp],
+                           [obj[1].Humidity,obj[1].Temperature,obj[1].Timestamp],
+                           [obj[2].Humidity,obj[2].Temperature,obj[2].Timestamp],
+                           [obj[3].Humidity,obj[3].Temperature,obj[3].Timestamp],
+                           [obj[4].Humidity,obj[4].Temperature,obj[4].Timestamp],
+                           [obj[5].Humidity,obj[5].Temperature,obj[5].Timestamp],
+                           [obj[6].Humidity,obj[6].Temperature,obj[6].Timestamp],
+                           [obj[7].Humidity,obj[7].Temperature,obj[7].Timestamp],
+                           [obj[8].Humidity,obj[8].Temperature,obj[8].Timestamp],
+                           [obj[9].Humidity,obj[9].Temperature,obj[9].Timestamp]],
+    table = document.getElementById("table");
+    if (table_flag != 0)
     {
-      // create a new cell
-      var cell = newRow.insertCell(j);
-                   
-      // add value to the cell
-      cell.innerHTML = array[i][j];
+      for( var k =table.rows.length-1;k>0;k--)
+      {
+        table.deleteRow(k);
+      }
+      table.deleteRow(0);
     }
-  }
-  var array = [["Humidity","Temperature","Timestamp"],["A1","B1","C1"],
-                         ["A2","B2","C2"],
-                         ["A3","B3","C3"],
-                         ["A4","B4","C4"],
-                         ["A5","B5","C5"],
-                         ["A1","B1","C1"],
-                         ["A2","B2","C2"],
-                         ["A3","B3","C3"],
-                         ["A4","B4","C4"],
-                         ["A5","B5","C5"]],
-  table = document.getElementById("table1");
-  for(var i = 0; i < array.length; i++)
-  {
-    // create a new row
-    var newRow = table.insertRow(table.length);
-    for(var j = 0; j < array[i].length; j++)
+    for(var i = 0; i < array.length; i++)
     {
-      // create a new cell
-      var cell = newRow.insertCell(j);
-                   
-      // add value to the cell
-      cell.innerHTML = array[i][j];
+      // create a new row
+      var newRow = table.insertRow(table.length);
+      for(var j = 0; j < array[i].length; j++)
+      {
+        // create a new cell
+        var cell = newRow.insertCell(j);
+                     
+        // add value to the cell
+        cell.innerHTML = array[i][j];
+      }
+       table_flag = 1;
     }
-  }
+      var node_t2 = new Date();
+    document.getElementById("demo_2").innerHTML = "End Time: " + node_t2.getTime() + " ms";
+    document.getElementById("demo_3").innerHTML = "Execution Time: " + (node_t2.getTime()-node_t1.getTime()) + " ms";
+    
+  
+        
+    }
+    
+  // Function to convert the data from Celsius to Fareheit and vice versa on button press
+  function c_f()
+  {
+    ws.send('Hi this is web client.');
+    if(cf_flag == 0)
+    {
+      cf_flag = 1;
+      
+    }
+    else
+     {
+      cf_flag = 0;
+    }
    
   }
   
-
+  // Function to display the current value via the Tornado Server
+  function refresh_tor() 
+  {
+    ws_tor.send("Send the Current Value");
+    flag_refresh_tor = 1;
+  }
   
+  // Function to display the Temperature Graph on button press
+  function temp_graph()
+  {
+    ws_tor.send("Send the table values");
+    flag_temp_graph = 1;
+  }
   
-  
+  // Function to display the Humidity Graph on button press
+  function humidity_graph()
+  {
+     ws_tor.send("Send the table values");
+    flag_humidity_graph = 1;
+  }
 </script>
 </html>

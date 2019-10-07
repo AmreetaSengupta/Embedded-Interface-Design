@@ -1,8 +1,8 @@
 /*****************************************************************************************************************
-* File Name: websocket-server.js
-* Description: 
+* File Name: node_server.js
+* Description: This code implements a Node.js server and communicates with a HTML client.
 * Author: Amreeta Sengupta and Ridhi Shah
-* Date: 10/04/2019
+* Date: 10/07/2019
 * References: https://www.w3schools.com/nodejs/nodejs_mysql.asp
 *             https://www.pubnub.com/blog/nodejs-websocket-programming-examples/
 ******************************************************************************************************************/
@@ -45,57 +45,24 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;  
- 
-    /* // To display contents of the Table
-    var show_table = 'select * from ' + table_name + '';
-    con.query(show_table, function (err, result) {
-    if (err) throw err;
-    console.log("table shown");
-    console.log(result);
-});*/
-
-
-// Node.js WebSocket server script
 });
 
+// Sending Data to the client
 wsServer.on('request', function(request) {
     const connection = request.accept(null, request.origin);
     connection.on('message', function(message) {
      if(message.utf8Data == "Hi this is web client."){
-      con.query('SELECT * from ' + table_name + ' ORDER BY id DESC LIMIT 1', function(err, rows, fields) {
-        if (!err)
-         var string_rows = JSON.stringify(rows);
-         console.log(string_rows);
-         connection.sendUTF(string_rows);
-        //else
-         //console.log('Error while performing Query.');  
-      //console.log('Received Message:', message.utf8Data);
-      //connection.sendUTF(server_string);
-    
+     con.query('SELECT * from ' + table_name + ' ORDER BY id DESC LIMIT 10', function(err, rows, fields) {
+     if (!err)
+         var string_rows_10 = JSON.stringify(rows);
+         console.log(string_rows_10);
+         connection.sendUTF(string_rows_10);
+      
+      });
+    }
   });
-}
-});
     connection.on('close', function(reasonCode, description) {
-        console.log('Client has disconnected.');
-    });
-
+      console.log('Client has disconnected.');
+  });
 });
-
-/*
-con.query('SELECT * from ' + table_name + ' ORDER BY id DESC LIMIT 1', function(err, rows, fields) {
-  if (!err)
-    var string_rows = JSON.stringify(rows);
-    console.log(string_rows);
-  else
-    console.log('Error while performing Query.');  
-  
-  //console.log(rows[0].id);
-  //console.log(rows[0].temperature);
-  //console.log(rows[0].humidity);
-  //console.log(rows[0].timestamp);
-  
-});
-});
-
-*/
 
