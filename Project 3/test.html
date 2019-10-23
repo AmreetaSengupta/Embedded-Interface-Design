@@ -515,6 +515,10 @@
     if (err) {
       console.log("Receive Error", err);
     } else if (data.Messages) {
+      if(data.Messages.length === 0)
+      {
+        return;
+      }
       console.log (data.Messages[0].Body)
       var q_data = JSON.parse(data.Messages[0].Body); 
       if( cf_flag == 1)
