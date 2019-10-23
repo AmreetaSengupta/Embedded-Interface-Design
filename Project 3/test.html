@@ -54,6 +54,7 @@
   <p id="demo"></p>
   <p id="demo_t"></p>
   <p id="demo_n"></p>
+  <p id="demo_sqs"></p>
   <div class="row">
   <div class="column" style="background-color:#8DBDD8;">
   <u><h2>NODE.JS</h2></u>
@@ -120,7 +121,7 @@
   &nbsp; 
   <table id="table_sqs" border="1" align="center">
   </table>
-   &nbsp; 
+  &nbsp; 
   <table id="table_sqs_all" border="1" align="center">
   </table>
   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
@@ -496,7 +497,17 @@
   {
     var params = {
       QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue', 
+      AttributeNames: [ 'ApproximateNumberOfMessages' ]
     };
+    sqs.getQueueAttributes(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else     console.log(data);           // successful response
+    num_msgs2 = JSON.parse(data.Attributes.ApproximateNumberOfMessages);
+    if (num_msgs2 === 0)
+    {
+      document.getElementById("demo_sqs").innerHTML = "Queue is Empty!";
+    }
+    });
     sqs.receiveMessage(params, function(err, data) {
     if (err) {
       console.log("Receive Error", err);
@@ -561,6 +572,10 @@
       if (err) console.log(err, err.stack); // an error occurred
       else     console.log(data);           // successful response
       num_msgs = JSON.parse(data.Attributes.ApproximateNumberOfMessages);
+      if (num_msgs === 0)
+      {
+        document.getElementById("demo_sqs").innerHTML = "Queue is Empty!";
+      }
       console.log(num_msgs);
       var i=0;
       var count_sqs = 0;
@@ -598,10 +613,6 @@
           {
             var array = [[q_data_all.humidity,q_data_all.temperature,q_data_all.timestamp]],
             table = document.getElementById("table_sqs_all");
-            //if (table_flag_sqs_all != 0)
-            {
-              //table.deleteRow(0);
-            }
             for(var i = 0; i < array.length; i++)
             {
               // create a new row
@@ -652,6 +663,10 @@
     else     console.log(data);           // successful response
     num_msgs1 = JSON.parse(data.Attributes.ApproximateNumberOfMessages);
     document.getElementById("q_id").value =  num_msgs1;
+    if (num_msgs1 === 0)
+    {
+      document.getElementById("demo_sqs").innerHTML = "Queue is Empty!";
+    }
     });
   }
   
