@@ -366,6 +366,8 @@ class Ui_gui(object):
                 global conversion_type
                 if humidity == "None1":
                         self.display_15.setText("Sensor not connected! Failed to Retrieve Data!")
+                        payload = '{ "Alert": "ERROR! SENSOR NOT CONNECTED" }'
+                        myMQTTClient.publish("SensorData", payload, 0)
                 else:
                         if conversion_type == 1:
                                 temperature = (((9.0/5.0)*temperature) + 32)

@@ -114,9 +114,13 @@
   <br><input type="button" onclick="sqs_record()" value="SINGLE SQS RECORD">
   <input type="button" onclick="sqs_record_all()" value="ALL SQS RECORDS">
   <br>
+  <br><input type="button" onclick="q_msg()" value="NUMBER OF MESSAGES IN THE QUEUE">
+  <input type="text" id="q_id">
   </div>
   &nbsp; 
   <table id="table_sqs" border="1" align="center">
+  </table>
+  <table id="table_sqs_all" border="1" align="center">
   </table>
   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -126,13 +130,15 @@
 <script>
   AWS.config.region = 'us-east-1'; // Region
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'us-east-1:773a153d-b4e3-4e98-8913-6980cc839026',
+  IdentityPoolId: 'us-east-1:773a153d-b4e3-4e98-8913-6980cc839026',
   });
   var sqs = new AWS.SQS({apiVersion: '2012-11-05'});
   var recieved_data, Temperature_val, Humidity_val, Timestamp_val, tor_data, tor_10;
   cf_flag=0;
   table_flag=0;
   table_flag1=0;
+  table_flag_sqs=0;
+  table_flag_sqs_all=0;
   flag_refresh_tor=0;
   flag_table_tor=0;
   flag_temp_graph=0;
@@ -488,84 +494,23 @@
   function sqs_record()
   {
     var params = {
-      QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue?Action=ReceiveMessage&Version=2012-11-05&AUTHPARAMS', 
+      QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue', 
     };
     sqs.receiveMessage(params, function(err, data) {
     if (err) {
       console.log("Receive Error", err);
     } else if (data.Messages) {
       console.log (data.Messages[0].Body)
-      q_data = JSON.parse(data.Messages[0].Body);    
-      document.getElementById("single_sqs_record").value =  (q_data.temperature);
-      var deleteParams = {
-        QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue?Action=ReceiveMessage&Version=2012-11-05&AUTHPARAMS' ,
-        ReceiptHandle: data.Messages[0].ReceiptHandle
-      };
-      sqs.deleteMessage(deleteParams, function(err, data) {
-        if (err) {
-          console.log("Delete Error", err);
-        } else {
-          console.log("Message Deleted", data);
-        }
-      });
-    }
-  });
- }
-  // Function to retrieve All SQS Records
-  function sqs_record_all()
-  {
-       var params = {
-        QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue', 
-      };
-      
-      while(1)
+      var q_data = JSON.parse(data.Messages[0].Body); 
+      if( cf_flag == 1)
       {
-        sqs.receiveMessage(params, function(err, data) {
-        if (err) {
-          console.log("Receive Error", err);
-        } else if (data.Messages) {
-          console.log (data.Messages.length)
-         // if (data.messages.length == 0)
-          {
-            //break;
-          }
-          var deleteParams = {
-            QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue' ,
-            ReceiptHandle: data.Messages[0].ReceiptHandle
-          };
-          sqs.deleteMessage(deleteParams, function(err, data) {
-            if (err) {
-              console.log("Delete Error", err);
-            } else {
-              console.log("Message Deleted", data);
-            }
-          });
-        }
-      });
-    }
-    /*
-        var array = [["Humidity","Temperature","Timestamp"],[[0].Humidity,[0].Temperature,[0].Timestamp],
-                             [[1].Humidity,[1].Temperature,[1].Timestamp],
-                             [[2].Humidity,[2].Temperature,[2].Timestamp],
-                             [[3].Humidity,[3].Temperature,[3].Timestamp],
-                             [[4].Humidity,[4].Temperature,[4].Timestamp],
-                             [[5].Humidity,[5].Temperature,[5].Timestamp],
-                             [[6].Humidity,[6].Temperature,[6].Timestamp],
-                             [[7].Humidity,[7].Temperature,[7].Timestamp],
-                             [[8].Humidity,[8].Temperature,[8].Timestamp],
-                             [[9].Humidity,[9].Temperature,[9].Timestamp]
-                             [[10].Humidity,[10].Temperature,[10].Timestamp],
-                             [[11].Humidity,[11].Temperature,[11].Timestamp],
-                             [[12].Humidity,[12].Temperature,[12].Timestamp],
-                             [[13].Humidity,[13].Temperature,[13].Timestamp],
-                             [[14].Humidity,[14].Temperature,[14].Timestamp],
-                             [[15].Humidity,[15].Temperature,[15].Timestamp],
-                             [[16].Humidity,[16].Temperature,[16].Timestamp],
-                             [[17].Humidity,[17].Temperature,[17].Timestamp],
-                             [[18].Humidity,[18].Temperature,[18].Timestamp]
-                             [[19].Humidity,[19].Temperature,[19].Timestamp]],
+       
+          q_data.temperature = (((9.0/5.0)*q_data.temperature) + 32);
+          
+      }   
+      var array = [["Humidity","Temperature","Timestamp"],[q_data.humidity,q_data.temperature,q_data.timestamp]],
       table = document.getElementById("table_sqs");
-      if (table_flag1 != 0)
+      if (table_flag_sqs != 0)
       {
         var tmp = table.rows.length;
         for( var t =tmp-1;t>0;t--)
@@ -586,10 +531,128 @@
           // add value to the cell
           cell.innerHTML = array[i][j];
         }
-        table_flag = 1;
-      }*/
+        table_flag_sqs = 1;
+      }
+      var deleteParams = {
+        QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue' ,
+        ReceiptHandle: data.Messages[0].ReceiptHandle
+      };
+      sqs.deleteMessage(deleteParams, function(err, data) {
+        if (err) {
+          console.log("Delete Error", err);
+        } else {
+          console.log("Message Deleted", data);
+        }
+      });
+    }
+  });
+ }
+  // Function to retrieve All SQS Records
+  function sqs_record_all()
+  {
+       var num_msgs;
+       var params = {
+        QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue', 
+        AttributeNames: [ 'ApproximateNumberOfMessages' ]
+      };
+     
+      sqs.getQueueAttributes(params, function(err, data) {
+      if (err) console.log(err, err.stack); // an error occurred
+      else     console.log(data);           // successful response
+      num_msgs = JSON.parse(data.Attributes.ApproximateNumberOfMessages);
+      console.log(num_msgs);
+      var i=0;
+      var count_sqs = 0;
+      
+      var head = [["Humidity","Temperature","Timestamp"]],
+      table1 = document.getElementById("table_sqs_all");
+      var newRow1 = table1.insertRow(table1.length);
+       for(var k = 0; k < head.length; k++)
+       {
+        for(var l = 0; l < head[k].length; l++)
+        {
+          // create a new cell
+          var cell = newRow1.insertCell(l);
+                       
+          // add value to the cell
+          cell.innerHTML = head[k][l];
+        }
+      }
+      
+      while(i < (num_msgs))
+      {
+        sqs.receiveMessage(params, function(err, data) {
+        if (err) {
+          console.log("Receive Error", err);
+        } else if (data.Messages) {
+          console.log (data.Messages)
+          var q_data_all = JSON.parse(data.Messages[0].Body); 
+          if( cf_flag == 1)
+          {
+           
+              q_data_all.temperature = (((9.0/5.0)*q_data_all.temperature) + 32);
+              
+          }
+          if (count_sqs < 20)
+          {
+            var array = [[q_data_all.humidity,q_data_all.temperature,q_data_all.timestamp]],
+            table = document.getElementById("table_sqs_all");
+            //if (table_flag_sqs_all != 0)
+            {
+              //table.deleteRow(0);
+            }
+            for(var i = 0; i < array.length; i++)
+            {
+              // create a new row
+              var newRow = table.insertRow(table.length);
+              for(var j = 0; j < array[i].length; j++)
+              {
+                // create a new cell
+                var cell = newRow.insertCell(j);
+                             
+                // add value to the cell
+                cell.innerHTML = array[i][j];
+              }
+              table_flag_sqs_all = 1;
+            }
+            count_sqs++;
+          }
+          
+          var deleteParams = {
+            QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue' ,
+            ReceiptHandle: data.Messages[0].ReceiptHandle
+          };
+          sqs.deleteMessage(deleteParams, function(err, data) {
+            if (err) {
+              console.log("Delete Error", err);
+            } else {
+              console.log("Message Deleted", data);
+            }
+          });
+        }
+      });
+      i++;
+    }
+    });
+    
   }
   
-
+  // Function to Display the number of messages in the Queue
+  function q_msg()
+  {
+    var num_msgs1;
+    var params = {
+      QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue', 
+      AttributeNames: [ 'ApproximateNumberOfMessages' ]
+    };
+   
+    sqs.getQueueAttributes(params, function(err, data) {
+    if (err) console.log(err, err.stack); // an error occurred
+    else     console.log(data);           // successful response
+    num_msgs1 = JSON.parse(data.Attributes.ApproximateNumberOfMessages);
+    document.getElementById("q_id").value =  num_msgs1;
+    });
+  }
+  
 </script>
 </html>
