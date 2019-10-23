@@ -73,7 +73,7 @@
   - A button is added which on pressing displays the number of messages in the queue
  
 ## PROJECT ISSUES
--
+- We were unable to use AWS SDK in the HTML client, therefore we were required to give unauthroized permissions for Javascript in         IAM and had to refer to various AWS documentatio link for the same  
 
 ## REFERNECES
 - EID Lecture Files (Intro to NodeJS)
