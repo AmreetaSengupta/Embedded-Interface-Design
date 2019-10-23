@@ -3,7 +3,7 @@
 # Description: This code is used to send data to SQS and SNS services in AWS.
 # Date: 10/23/2019
 # References: https://startupnextdoor.com/adding-to-sqs-queue-using-aws-lambda-and-a-serverless-api-endpoint/
-#			  https://docs.aws.amazon.com/iot/latest/developerguide/iot-lambda-rule.html 
+#	      https://docs.aws.amazon.com/iot/latest/developerguide/iot-lambda-rule.html 
 #******************************************************************************************************************
 
 from __future__ import print_function
