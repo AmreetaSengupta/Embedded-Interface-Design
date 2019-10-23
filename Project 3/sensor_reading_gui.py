@@ -1,8 +1,8 @@
 #*****************************************************************************************************************
 # File Name: sensor_reading_gui.py
 # Description: This code is used to store the sensor readings in a database and display these readings in a GUI 
-#              and send data to the client through the Tornado Server.
-# Date: 10/07/2019
+#              and send data to the client through the Tornado Server and also sends data to the AWS services.
+# Date: 10/23/2019
 # References: https://www.w3schools.com/python/python_mysql_drop_table.asp
 #	      https://pimylifeup.com/raspberry-pi-humidity-sensor-dht22/ 
 #	      https://pypi.org/project/multitimer/

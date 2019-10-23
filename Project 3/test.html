@@ -3,7 +3,7 @@
 * File Name: test.html
 * Description: This code is used to display the data recieved from Tornado Server and Node.js Server
 * Author: Amreeta Sengupta and Ridhi Shah
-* Date: 10/07/2019
+* Date: 10/23/2019
 * References: https://html.com/tags/comment-tag/
 *             http://www.tornadoweb.org/en/stable/
 *             https://www.pubnub.com/blog/nodejs-websocket-programmingexamples/
@@ -83,7 +83,7 @@
   <div class="column" style="background-color:#8DBDD8;">
   <u><h2>TORNADO</h2></u>
   <div style="text-align: center;">
- Temperature: <input type="text" id="temperature_tor">
+  Temperature: <input type="text" id="temperature_tor">
   <br>
   <br>
   Humidity: <input type="text" id="humidity_tor">
@@ -126,10 +126,10 @@
   </table>
   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-</body>
-<script src="http://code.jquery.com/jquery.min.js"></script>
-<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
-<script>
+  </body>
+  <script src="http://code.jquery.com/jquery.min.js"></script>
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+  <script>
   AWS.config.region = 'us-east-1'; // Region
   AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: 'us-east-1:773a153d-b4e3-4e98-8913-6980cc839026',
@@ -157,8 +157,8 @@
   $("div#message_details").hide()
 
  
- // $("#open").click(function(evt) {
- // evt.preventDefault();
+  // $("#open").click(function(evt) {
+  // evt.preventDefault();
  
   // create websocket instance
   ws_tor = new WebSocket('ws://localhost:8800/ws');
@@ -343,7 +343,7 @@
     $("#send").click(function(evt) {
     console.log("button clicked ")
     });
-});
+ });
         
   const ws = new WebSocket('ws://localhost:9898/');
   ws.onopen = function() {
@@ -451,8 +451,6 @@
       var node_t2 = new Date();
     document.getElementById("demo_2").innerHTML = "End Time: " + node_t2.getTime() + " ms";
     document.getElementById("demo_3").innerHTML = "Execution Time: " + (node_t2.getTime()-node_t1.getTime()) + " ms";
-    
-  
         
     }
     
