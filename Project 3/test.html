@@ -558,7 +558,7 @@
         if (err) {
           console.log("Delete Error", err);
         } else {
-          console.log("Message Deleted", data);
+          //console.log("Message Deleted", data);
           q_msg();
         }
       });
@@ -620,7 +620,7 @@
         if (err) {
           console.log("Receive Error", err);
         } else if (data.Messages) {
-          console.log (data.Messages)
+          //console.log (data.Messages)
           var q_data_all = JSON.parse(data.Messages[0].Body); 
           if( cf_flag == 1)
           {
@@ -660,7 +660,7 @@
             if (err) {
               console.log("Delete Error", err);
             } else {
-              console.log("Message Deleted", data);
+              //console.log("Message Deleted", data);
               q_msg();
             }
           });
