@@ -49,9 +49,7 @@
 - Run the following command to install Tornado module:
   - pip3 install tornado
 - Run the following to install AWS SDK
-  - git clone https://github.com/aws/aws-iot-device-sdk-python
-  - cd aws-iot-device-sdk-python
-  - sudo python setup.py install
+  - pip3 install AWSIoTPythonSDK
 - Follow the steps in the link: https://docs.aws.amazon.com/iot/latest/developerguide/iot-gs.html to set up AWS account and to create     resources required to send, receive, and process MQTT messages from devices using AWS IoT 
 - Refer the link: https://docs.aws.amazon.com/iot/latest/developerguide/config-and-test-rules.html to create and configure a rule to       send the data received from a device to an Amazon SNS topic
 - Refer the link: https://docs.aws.amazon.com/iot/latest/developerguide/iot-lambda-rule.html to create a Lambda function that publishes   a message to the Amazon SNS topic created and to create a Lambda rule that calls the Lambda function, passing in some data from the     MQTT message that triggered the rule.
@@ -75,6 +73,7 @@
  
 ## PROJECT ISSUES
 - We were unable to use AWS SDK in the HTML client, therefore we were required to give unauthroized permissions for Javascript in         IAM and had to refer to various AWS documentation links for the same.  
+- We used HTTP GET request to get data in HTML from AWS SQS queue, the response of the GET request is in XML format. we faced an issue     while parsing this XML data and interpreting it as a string. To tackle this we used the AWS javascript SDK as an alternative. 
 
 ## REFERNECES
 - EID Lecture Files (Intro to NodeJS)
