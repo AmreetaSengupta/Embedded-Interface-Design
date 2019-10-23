@@ -70,11 +70,11 @@
 ## PROJECT ADDITIONS
 - Following Error Conditions were taken care of :
   - An alert message is sent via E-mail when the DHT22 sensor is disconnected.
-  - A button is added which on pressing displays the number of messages in the queue
-  - A message is displayed in the HTML client when the SQS queue is empty
+  - A button is added which on pressing displays the number of messages in the queue.
+  - A message is displayed in the HTML client when the SQS queue is empty.
  
 ## PROJECT ISSUES
-- We were unable to use AWS SDK in the HTML client, therefore we were required to give unauthroized permissions for Javascript in         IAM and had to refer to various AWS documentation links for the same  
+- We were unable to use AWS SDK in the HTML client, therefore we were required to give unauthroized permissions for Javascript in         IAM and had to refer to various AWS documentation links for the same.  
 
 ## REFERNECES
 - EID Lecture Files (Intro to NodeJS)
