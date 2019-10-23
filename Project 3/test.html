@@ -145,6 +145,7 @@
   flag_table_tor=0;
   flag_temp_graph=0;
   flag_humidity_graph=0;
+  flag_tb=0;
    
   // log function
   log = function(data){
@@ -507,6 +508,10 @@
     {
       document.getElementById("demo_sqs").innerHTML = "Queue is Empty!";
     }
+    else
+    {
+      document.getElementById("demo_sqs").innerHTML = "Sensor Data Available in Queue!";
+    }
     });
     sqs.receiveMessage(params, function(err, data) {
     if (err) {
@@ -554,6 +559,7 @@
           console.log("Delete Error", err);
         } else {
           console.log("Message Deleted", data);
+          q_msg();
         }
       });
     }
@@ -575,6 +581,11 @@
       if (num_msgs === 0)
       {
         document.getElementById("demo_sqs").innerHTML = "Queue is Empty!";
+        return;
+      }
+      else
+      {
+        document.getElementById("demo_sqs").innerHTML = "Sensor Data Available in Queue!";
       }
       console.log(num_msgs);
       var i=0;
@@ -582,6 +593,15 @@
       
       var head = [["Humidity","Temperature","Timestamp"]],
       table1 = document.getElementById("table_sqs_all");
+      if (flag_tb == 1)
+      {
+        var tmp = table1.rows.length;
+        for( var t =tmp-1;t>=0;t--)
+        {
+          table1.deleteRow(t);
+        }
+      }
+      
       var newRow1 = table1.insertRow(table1.length);
        for(var k = 0; k < head.length; k++)
        {
@@ -609,10 +629,13 @@
               q_data_all.temperature = (((9.0/5.0)*q_data_all.temperature) + 32);
               
           }
+          
+          
+          var array = [[q_data_all.humidity,q_data_all.temperature,q_data_all.timestamp]],
+          table = document.getElementById("table_sqs_all");
+          
           if (count_sqs < 20)
           {
-            var array = [[q_data_all.humidity,q_data_all.temperature,q_data_all.timestamp]],
-            table = document.getElementById("table_sqs_all");
             for(var i = 0; i < array.length; i++)
             {
               // create a new row
@@ -629,7 +652,7 @@
             }
             count_sqs++;
           }
-          
+         
           var deleteParams = {
             QueueUrl: 'https://sqs.us-east-1.amazonaws.com/229856064192/New_Queue' ,
             ReceiptHandle: data.Messages[0].ReceiptHandle
@@ -639,14 +662,16 @@
               console.log("Delete Error", err);
             } else {
               console.log("Message Deleted", data);
+              q_msg();
             }
           });
         }
       });
       i++;
     }
-    });
     
+    });
+    flag_tb = 1;
   }
   
   // Function to Display the number of messages in the Queue
@@ -666,6 +691,10 @@
     if (num_msgs1 === 0)
     {
       document.getElementById("demo_sqs").innerHTML = "Queue is Empty!";
+    }
+    else
+    {
+      document.getElementById("demo_sqs").innerHTML = "Sensor Data Available in Queue!";
     }
     });
   }
