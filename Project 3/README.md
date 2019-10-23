@@ -1,4 +1,4 @@
-# EMBEDDED INTERFACE DESIGN PROJECT 3
+#                                        EMBEDDED INTERFACE DESIGN PROJECT 3
                                                 
                                            Authors   : Amreeta Sengupta and Ridhi Shah
                                            Professor : Bruce Montgomery 
