@@ -64,15 +64,16 @@
  
 
 ## PROJECT WORK
-- Amreeta Sengupta: Responsible for Cost estimation between google and AWS, setting up MQTT, SQS and creting lambda function for passing   data 
-- Ridhi Shah: Responsible for setting up communication via SNS and integration of SQS with HTML client
+- Amreeta Sengupta: Responsible for Cost estimation between google and AWS, setting up MQTT, SQS and creating lambda function for passing data.
+- Ridhi Shah: Responsible for setting up communication via SNS and integration of SQS with HTML client.
 
 ## PROJECT ADDITIONS
 - Following Error Conditions were taken care of :
   - An alert message is sent via E-mail when the DHT22 sensor is disconnected.
   - A button is added which on pressing displays the number of messages in the queue
  
-
+## PROJECT ISSUES
+-
 
 ## REFERNECES
 - EID Lecture Files (Intro to NodeJS)
