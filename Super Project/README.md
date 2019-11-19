@@ -16,6 +16,9 @@
   - sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
   - sudo apt-get install qttools5-dev-tools
   
+- For using the AWS Services (Lex, Polly, Rekognition, SQS) using boto3, use the following documentation:
+  - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
+  
 ### PROJECT WORK
 - Amreeta Sengupta : Responsible for design of GUI.
 - Ridhi Shah : Responsible for component interface.
