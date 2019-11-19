@@ -16,6 +16,6 @@
   - sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
   - sudo apt-get install qttools5-dev-tools
   
-## PROJECT WORK
+### PROJECT WORK
 - Amreeta Sengupta : Responsible for design of GUI.
 - Ridhi Shah : Responsible for component interface.
