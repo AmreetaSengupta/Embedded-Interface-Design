@@ -18,4 +18,4 @@
   
 ## PROJECT WORK
 - Amreeta Sengupta : Responsible for design of GUI.
-- Ridhi Shah : Responsible for component interaface.
+- Ridhi Shah : Responsible for component interface.
