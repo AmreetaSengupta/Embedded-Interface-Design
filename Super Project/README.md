@@ -17,5 +17,5 @@
   - sudo apt-get install qttools5-dev-tools
   
 ## PROJECT WORK
-- Amreeta Sengupta: Responsible for design of GUI.
-- Ridhi Shah: Responsible for component interaface.
+- Amreeta Sengupta : Responsible for design of GUI.
+- Ridhi Shah : Responsible for component interaface.
