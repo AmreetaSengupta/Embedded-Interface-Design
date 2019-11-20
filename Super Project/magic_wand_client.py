@@ -17,7 +17,6 @@ from botocore.exceptions import BotoCoreError, ClientError
 
 s3 = boto3.resource('s3')
 s3client = boto3.client('s3')
-#transcribe = boto3.client('transcribe')
 sqs_client = boto3.client('sqs')
 polly_client = boto3.client('polly')
 rekognition_client=boto3.client('rekognition')
@@ -39,24 +38,6 @@ for bucket in response["Buckets"]:
     print(bucket['Name'])
 
 
-'''
-job_name = "magicwand5"
-job_uri = "https://magic-wand.s3.amazonaws.com/male.wav"
-transcribe.start_transcription_job(
-    TranscriptionJobName=job_name,
-    Media={'MediaFileUri': job_uri},
-    MediaFormat='wav',
-    LanguageCode='en-US'
-)
-while True:
-    status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
-    if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
-        break
-    print("Not ready yet...")
-    time.sleep(5)
-print(status)
-
-'''
 #CONVERTING SPEECH TO TEXT USING AMAZON LEX
 obj = wave.open('/home/pi/Embedded-Interface-Design/Super Project/test2.wav','rb')
 
