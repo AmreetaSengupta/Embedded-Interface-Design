@@ -20,5 +20,5 @@
   - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
   
 ### PROJECT WORK
-- Amreeta Sengupta : Responsible for design of GUI.
-- Ridhi Shah : Responsible for component interface.
+- Amreeta Sengupta : Responsible for Camera interface and Amazon Lex and SQS services.
+- Ridhi Shah : Responsible for Microphone and speaker interface and Amazon Polly and Rekognition services.
