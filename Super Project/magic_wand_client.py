@@ -10,6 +10,7 @@ import time
 import os
 import sys
 import subprocess
+import wave
 from contextlib import closing
 from tempfile import gettempdir
 from botocore.exceptions import BotoCoreError, ClientError
@@ -20,13 +21,20 @@ s3client = boto3.client('s3')
 sqs_client = boto3.client('sqs')
 polly_client = boto3.client('polly')
 rekognition_client=boto3.client('rekognition')
+#lex_client = boto3.client('lex')
 
 max_confidence = 0
 
+#CAPTURING IMAGE USING CAMERA
+os.system('raspistill -o img1.jpg')
+
+#RECORDING AUDIO 
+os.system('arecord -D plughw:1,0 -d 5 -r 16000 test.wav &&  aplay test.wav')
+
 #ADDING OBJECTS TO S3 BUCKET
 response = s3client.list_buckets()
-s3.Object('magic-wand','male.wav').upload_file(Filename='/home/pi/male.wav')
-s3.Object('magic-wand','pen.jpg').upload_file(Filename='/home/pi/pen.jpg')
+s3.Object('magic-wand','male.wav').upload_file(Filename='./male.wav')
+s3.Object('magic-wand','pen.jpg').upload_file(Filename='./pen.jpg')
 for bucket in response["Buckets"]:
     print(bucket['Name'])
 
@@ -49,6 +57,7 @@ while True:
 print(status)
 
 '''
+#CONVERTING SPEECH TO TEXT USING AMAZON LEX
 
 #CONVERTING TEXT TO SPEECH USING AMAZON POLLY
 response = polly_client.synthesize_speech(VoiceId='Joanna',
