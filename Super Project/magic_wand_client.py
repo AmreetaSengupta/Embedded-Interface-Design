@@ -21,7 +21,7 @@ s3client = boto3.client('s3')
 sqs_client = boto3.client('sqs')
 polly_client = boto3.client('polly')
 rekognition_client=boto3.client('rekognition')
-#lex_client = boto3.client('lex')
+lex_client = boto3.client('lex-runtime')
 
 max_confidence = 0
 
@@ -29,7 +29,7 @@ max_confidence = 0
 os.system('raspistill -o img1.jpg')
 
 #RECORDING AUDIO 
-os.system('arecord -D plughw:1,0 -d 5 -r 16000 test.wav &&  aplay test.wav')
+os.system('arecord -D plughw:1,0 -d 3 -r 16000 -f S16_LE -t wav test2.wav &&  aplay test2.wav')
 
 #ADDING OBJECTS TO S3 BUCKET
 response = s3client.list_buckets()
@@ -58,6 +58,17 @@ print(status)
 
 '''
 #CONVERTING SPEECH TO TEXT USING AMAZON LEX
+obj = wave.open('/home/pi/Embedded-Interface-Design/Super Project/test2.wav','rb')
+
+response_lex = lex_client.post_content(
+    botName='Magic_Wand',
+    botAlias='Magicwand',
+    userId='eid',
+    contentType='audio/l16; rate=16000; channels=1',
+    accept='text/plain; charset=utf-8',
+    inputStream=obj.readframes(96044)
+)
+print(response_lex['message'])
 
 #CONVERTING TEXT TO SPEECH USING AMAZON POLLY
 response = polly_client.synthesize_speech(VoiceId='Joanna',
