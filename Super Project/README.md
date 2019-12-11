@@ -35,7 +35,7 @@
   - The user needs to update the Login Details (i.e. username and password) in the code before running it
   
   - For using the AWS Services (Lex, Polly, Rekognition, SQS) using boto3, use the following documentation:
-  - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
+    - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
 
 ### PROJECT WORK
 - Amreeta Sengupta : Responsible for Camera interface and Amazon Lex and SQS services.
