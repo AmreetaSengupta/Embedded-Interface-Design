@@ -34,15 +34,27 @@
   - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it
   
+ - Run the following commands to install nvm, node and npm:
+   - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+   - Restart the terminal
+   - nvm –version (Returns the version number)
+   - nvm install node (Installs the latest node)
+   - nvm install 10.16.3 (Installs the stable LTS 10.16.3 node)
+   - node -v (Returns the version number)
+   - npm –v (Returns the version of npm installed with node.js)
+ 
  - Install the library for using Raspberry Pi GPIO in Node JS by using the following command:
     - npm install onoff
  
  - Install the library for using Sleep in Node JS by using the following command:
     - npm install sleep
-    
   
   - For using the AWS Services (Lex, Polly, Rekognition, SQS) using boto3, use the following documentation:
     - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
+    
+  - For running the application, execute the following commands:
+    - Client: pyhton3 magic_wand_client.py
+    - Server: python3 magic_wand_server.py
 
 ### PROJECT WORK
 - Amreeta Sengupta : Responsible for Camera interface and Amazon Lex and SQS services and Adding data to the database from the SQS.
