@@ -1,12 +1,14 @@
-#*****************************************************************************************************************
+#*****************************************************************
 # File Name: magic_wand_server.py
 # Description: This code is used to load the GUI.
 # Date: 11/18/2019
-#******************************************************************************************************************
+# Author: Amreeta Sengupta and Ridhi Shah
+#*****************************************************************
 
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QLabel, QApplication, QMainWindow
 from PyQt5.QtGui import QPixmap
+from PyQt5 import Qt
 import sys
 import boto3
 import os
@@ -27,8 +29,6 @@ passwd_name = "eid19"
 database_name = "EID"
 table_name = "MagicWand_eid"
 table_name_label = "MagicWand_Label"
-
-s3client.download_file('magic-wand','img1.jpg','./img1.jpg')
 
 mydb = mysql.connector.connect(
   host=host_name,
@@ -106,6 +106,10 @@ myresult = mycursor.fetchall()
 Img_corr_cnt = 0
 total_cnt = 0
 img_wrong = 0
+incorrect = 0
+correct = 0
+correct_try = 0
+per = 0
 
 print(myresult);
 
@@ -121,7 +125,9 @@ for y in myresult:
  
 print("Total Images are {}".format(total_cnt))
 
-img_wrong = total_cnt - Img_corr_cnt
+for c in myresult:
+  if(c[0]=="wrongo"):
+    img_wrong = img_wrong + 1
 
 print("Number of Incorrect Images are {}" .format(img_wrong))
 
@@ -130,9 +136,25 @@ if(total_cnt != 0):
   correct=str(percent_corr)
   print('Percentage of Correct Images is ' + correct + '%') 
 else:
-  print('No Commands in queue');
-  
-  
+  print('No Images!');
+
+print("Total Images are {}".format(total_cnt))    
+
+for z in myresult:
+  if(z[0]=="Sorry, can you please repeat that?" or z[0]=="Sorry, I could not understand. Goodbye."):
+    incorrect = incorrect + 1
+    
+print("Number of Incorrect Voice Commands are {}".format(incorrect))  
+
+correct_try = total_num_msg - incorrect
+
+print("Number of Correct Voice Commands are {}".format(correct_try))  
+
+if(total_num_msg != 0):
+  per = (correct_try/total_num_msg)*100
+  print("Percentage of Correct Voice Commands are {}".format(per))  
+else:
+  print('No Commands!');    
   
 #######LABEL###############
 response_label = sqs_client.get_queue_attributes(
@@ -163,14 +185,19 @@ for i in range(b):
 mycursor.execute("SELECT * FROM {}".format(table_name_label))
 for k in mycursor:
   print(k)
+
+#TO GET THE IMAGE LABEL 
+if(b != 0):
+  s3client.download_file('magic-wand','img1.jpg','./img1.jpg')
+  mycursor.execute("SELECT Label FROM {} ORDER BY ID DESC LIMIT 1".format(table_name_label))
+  for l in mycursor:
+    print(l)
+    last_label = l[0]
+  print(last_label)
+else:
+  os.system('rm img1.jpg');
+  last_label = "Image Label Not Found"
   
-mycursor.execute("SELECT Label FROM {} ORDER BY ID DESC LIMIT 1".format(table_name_label))
-for l in mycursor:
-  print(l)
-  last_label = l[0]
-
-print(last_label)
-
 class MainWindow(QtWidgets.QMainWindow):
     
     def __init__(self):
@@ -188,19 +215,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.per_image = self.findChild(QtWidgets.QLabel, 'per_image')
         self.per_cmd = self.findChild(QtWidgets.QLabel, 'per_cmd')
         self.image = self.findChild(QtWidgets.QLabel, 'Image')
-        self.image.setPixmap(QPixmap('img1.jpg'))
         self.show()
     
     def refresh(self):
-        self.image_label.setText("{}".format("IMAGE LABEL NOT FOUND"))
+        self.image_label.setText("{}".format(last_label))
         self.correct_image.setText("{}".format(Img_corr_cnt))
         self.incorrect_image.setText("{}".format(img_wrong))
         self.total_image.setText("{}".format(total_cnt))
-        self.correct_cmd.setText("{}".format("0"))
-        self.incorrect_cmd.setText("{}".format("0"))
-        self.total_cmd.setText("{}".format("0"))
+        self.correct_cmd.setText("{}".format(correct_try))
+        self.incorrect_cmd.setText("{}".format(incorrect))
+        self.total_cmd.setText("{}".format(total_num_msg))
         self.per_image.setText("{}".format(correct))
-        self.per_cmd.setText("{}".format("0"))
+        self.per_cmd.setText("{}".format(per))
+        self.image.setPixmap(QPixmap('img1.jpg'))
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
