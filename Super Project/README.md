@@ -34,10 +34,14 @@
   - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it
   
+  - Install the library for using Raspberry Pi GPIO in Node JS by using the following command:
+    - npm install onoff
+    
+  
   - For using the AWS Services (Lex, Polly, Rekognition, SQS) using boto3, use the following documentation:
     - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
 
 ### PROJECT WORK
-- Amreeta Sengupta : Responsible for Camera interface and Amazon Lex and SQS services.
-- Ridhi Shah : Responsible for Microphone and speaker interface and Amazon Polly and Rekognition services.
+- Amreeta Sengupta : Responsible for Camera interface and Amazon Lex and SQS services and Adding data to the database from the SQS.
+- Ridhi Shah : Responsible for Microphone and speaker interface and Amazon Polly and Rekognition services and integration between server   and client.
 
