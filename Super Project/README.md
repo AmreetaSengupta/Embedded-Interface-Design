@@ -36,6 +36,7 @@
   
   - Install the library for using Raspberry Pi GPIO in Node JS by using the following command:
     - npm install onoff
+    -npm instll sleep
     
   
   - For using the AWS Services (Lex, Polly, Rekognition, SQS) using boto3, use the following documentation:
