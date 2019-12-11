@@ -156,7 +156,7 @@ if(total_num_msg != 0):
 else:
   print('No Commands!');    
   
-#######LABEL###############
+############## LABEL ###############
 response_label = sqs_client.get_queue_attributes(
     QueueUrl='https://sqs.us-east-1.amazonaws.com/229856064192/Superproject_Queue',
     AttributeNames=[
