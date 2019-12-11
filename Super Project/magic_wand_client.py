@@ -25,15 +25,15 @@ lex_client = boto3.client('lex-runtime')
 max_confidence = 0
 
 #CAPTURING IMAGE USING CAMERA
-os.system('raspistill -o img1.jpg')
+#os.system('raspistill -o img1.jpg')
 
 #RECORDING AUDIO 
 os.system('arecord -D plughw:1,0 -d 3 -r 16000 -f S16_LE -t wav test2.wav &&  aplay test2.wav')
 
 #ADDING OBJECTS TO S3 BUCKET
 response = s3client.list_buckets()
-s3.Object('magic-wand','male.wav').upload_file(Filename='./male.wav')
-s3.Object('magic-wand','pen.jpg').upload_file(Filename='./pen.jpg')
+#s3.Object('magic-wand','male.wav').upload_file(Filename='./male.wav')
+#s3.Object('magic-wand','pen.jpg').upload_file(Filename='./pen.jpg')
 for bucket in response["Buckets"]:
     print(bucket['Name'])
 
@@ -49,38 +49,55 @@ response_lex = lex_client.post_content(
     accept='text/plain; charset=utf-8',
     inputStream=obj.readframes(96044)
 )
-print(response_lex['message'])
 
-#CONVERTING TEXT TO SPEECH USING AMAZON POLLY
-response = polly_client.synthesize_speech(VoiceId='Joanna',
-                OutputFormat='mp3', 
-                Text = 'This is a sample text to be synthesized.')
+msg = response_lex['message']
+print(msg)
 
-file = open('speech.mp3', 'wb')
-file.write(response['AudioStream'].read())
-file.close()
-
-#IMAGE RECOGNITION USING AMAZON REKOGNITION
-image_s3 = {
-  'S3Object': {
-    'Bucket': "magic-wand", 'Name': "pen.jpg"
-  }
-}
-
-response = rekognition_client.detect_labels(
-  Image=image_s3,
-  MaxLabels=10
-)
-
-for i in response["Labels"]:
-    if (max_confidence < i['Confidence']):
-        max_confidence = i['Confidence']
-        print(i['Name'])
-
-#SENDING DATA TO SQS
+#SENDING COMMAND TO SQS
 response = sqs_client.send_message(
-    QueueUrl='https://sqs.us-east-1.amazonaws.com/229856064192/Superproject_Queue',
-    MessageBody='AMY'
+    QueueUrl='https://sqs.us-east-1.amazonaws.com/229856064192/SuperProject_Cmd',
+    MessageBody = msg
 )
+
+if(msg == 'Image Identified'):
+    print('Capturing Image...')
+    os.system('raspistill -o img1.jpg')
+    s3.Object('magic-wand','img1.jpg').upload_file(Filename='./img1.jpg')
+    
+
+
+    #IMAGE RECOGNITION USING AMAZON REKOGNITION
+    image_s3 = {
+    'S3Object': {
+    'Bucket': "magic-wand", 'Name': "img1.jpg"
+    }
+    }
+
+    response = rekognition_client.detect_labels(
+    Image=image_s3,
+    MaxLabels=10
+    )
+
+    for i in response["Labels"]:
+        if (max_confidence < i['Confidence']):
+            max_confidence = i['Confidence']
+            label = i['Name']
+            print(i['Name'])
+
+    #CONVERTING TEXT TO SPEECH USING AMAZON POLLY
+    str1 = "identified blah"
+    response = polly_client.synthesize_speech(VoiceId='Joanna',
+                    OutputFormat='mp3', 
+                    Text = label + str1)
+
+    file = open('speech.mp3', 'wb')
+    file.write(response['AudioStream'].read())
+    file.close()
+
+    #SENDING LABEL TO SQS
+    response = sqs_client.send_message(
+        QueueUrl='https://sqs.us-east-1.amazonaws.com/229856064192/Superproject_Queue',
+        MessageBody = label
+    )
    
 
