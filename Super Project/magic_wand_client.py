@@ -5,6 +5,7 @@
 # References: https://www.edureka.co/community/31884/how-to-upload-a-file-in-s3-bucket-using-boto3-in-python
 #******************************************************************************************************************
 
+#Import required Libraries
 import boto3
 import time
 import os
@@ -14,6 +15,9 @@ import wave
 from contextlib import closing
 from tempfile import gettempdir
 from botocore.exceptions import BotoCoreError, ClientError
+
+__author__ = "Amreeta Sengupta, Ridhi Shah"
+__copyright__ = "Copyright (C) 2019 by Amreeta Sengupta and Ridhi Shah"
 
 s3 = boto3.resource('s3')
 s3client = boto3.client('s3')
@@ -26,6 +30,7 @@ max_confidence = 0
 
 while True:
    
+    #Waiting for button press and user command
     os.system('node magic_wand_client.js')
     
     #ADDING OBJECTS TO S3 BUCKET
@@ -54,7 +59,7 @@ while True:
         QueueUrl='https://sqs.us-east-1.amazonaws.com/229856064192/SuperProject_Cmd',
         MessageBody = msg
     )
-
+    
     if(msg == 'Image Identified'):
         print('Capturing Image...')
         os.system('node magic_wand_client.js Capture')
