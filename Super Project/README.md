@@ -15,10 +15,7 @@
   Install these libraries using the following commands:
   - sudo apt-get install qt5-default pyqt5-dev pyqt5-dev-tools
   - sudo apt-get install qttools5-dev-tools
-  
-- For using the AWS Services (Lex, Polly, Rekognition, SQS) using boto3, use the following documentation:
-  - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
-  
+ 
 - Use the following commands to set up MYSQL in Raspberry Pi from https://pimylifeup.com/raspberry-pi-mysql/ which includes:
    - sudo apt install mariadb-server
    - sudo mysql_secure_installation
@@ -36,7 +33,11 @@
   - Use Ctrl+C to exit MariaDB
   - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it
+  
+  - For using the AWS Services (Lex, Polly, Rekognition, SQS) using boto3, use the following documentation:
+  - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/quickstart.html
 
 ### PROJECT WORK
 - Amreeta Sengupta : Responsible for Camera interface and Amazon Lex and SQS services.
 - Ridhi Shah : Responsible for Microphone and speaker interface and Amazon Polly and Rekognition services.
+
