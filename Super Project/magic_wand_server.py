@@ -1,8 +1,10 @@
-#**********************************************************************************************************
+#****************************************************************************************************************
 # File Name: magic_wand_server.py
 # Description: This code is used receive data from AWS SQS and store it in SQL database and load the GUI.
 # Date: 12/11/2019
-#**********************************************************************************************************
+# References: https://www.w3schools.com/python/python_mysql_getstarted.asp
+#             https://docs.aws.amazon.com/code-samples/latest/catalog/code-catalog-python-example_code-sqs.html
+#****************************************************************************************************************
 
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QLabel, QApplication, QMainWindow
