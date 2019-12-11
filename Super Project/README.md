@@ -34,7 +34,7 @@
   - Run "python3 -m pip install mysql-connector" to install MySQL Connector
   - The user needs to update the Login Details (i.e. username and password) in the code before running it
   
-  - Install the library for using Raspberry Pi GPIO in Node JS by using the following command:
+ - Install the library for using Raspberry Pi GPIO in Node JS by using the following command:
     - npm install onoff
  
  - Install the library for using Sleep in Node JS by using the following command:
